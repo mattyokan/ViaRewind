@@ -8,9 +8,10 @@ import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.viaversion.viaversion.sponge.util.LoggerWrapper;
+import com.viaversion.viaversion.util.VersionInfo;
 import de.gerrygames.viarewind.api.ViaRewindConfigImpl;
 import de.gerrygames.viarewind.api.ViaRewindPlatform;
-import de.gerrygames.viarewind.velocity.VersionInfo;
+import org.apache.logging.log4j.LogManager;
 
 import java.nio.file.Path;
 import java.util.logging.Logger;
@@ -27,8 +28,6 @@ import java.util.logging.Logger;
 )
 public class VelocityPlugin implements ViaRewindPlatform {
     private Logger logger;
-	@Inject
-	private org.slf4j.Logger loggerSlf4j;
 
 	@Inject
 	@DataDirectory
@@ -37,7 +36,7 @@ public class VelocityPlugin implements ViaRewindPlatform {
 	@Subscribe(order = PostOrder.LATE)
 	public void onProxyStart(ProxyInitializeEvent e) {
 		// Setup Logger
-		this.logger = new LoggerWrapper(loggerSlf4j);
+		this.logger = new LoggerWrapper(LogManager.getLogger());
 		// Init!
 		ViaRewindConfigImpl conf = new ViaRewindConfigImpl(configDir.resolve("config.yml").toFile());
 		conf.reloadConfig();
